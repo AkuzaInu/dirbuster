@@ -1,4 +1,4 @@
-[![GitHub license](https://img.shields.io/badge/version-v1.2-green.svg)](https://githubusercontent.com/AkuzaInu/dirbuster/main/main.py)
+[![GitHub license](https://img.shields.io/badge/version-v1.2-green.svg)](https://github.com/AkuzaInu/dirbuster/main/main.py)
 [![GitHub license](https://img.shields.io/badge/license-Unlicense-blue.svg)](https://raw.githubusercontent.com/AkuzaInu/dirbuster/main/LICENSE)
 
 # Python Dirbuster
