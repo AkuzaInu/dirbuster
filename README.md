@@ -2,7 +2,7 @@
 [![GitHub license](https://img.shields.io/badge/license-Unlicense-blue.svg)](https://raw.githubusercontent.com/AkuzaInu/dirbuster/main/LICENSE)
 
 # Python Dirbuster
-`v1.2`
+`v1.2.5`
 
 ## Description
 A python directory buster using `requests`
