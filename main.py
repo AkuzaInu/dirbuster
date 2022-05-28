@@ -10,6 +10,7 @@ import time
 import os
 import requests
 from colorama import Fore
+import threading
 
 # Main class
 class Dirbuster:
@@ -39,30 +40,51 @@ class Dirbuster:
         self.get_url()
 
     # The actual dirbuster using requests. if code is 200, print url path.
-    def dirb(self, url):
+    def dirb(self, dir, url):
         try:
-            wordlist = open('wordlist.txt', 'r')
-            for dir in wordlist.readlines():
-                dir = dir.strip()
-                path = url + "/" + dir
-                r = requests.get(path)
-                if r.status_code == 200:
-                    print(f"\t[ {Fore.LIGHTGREEN_EX}{r.status_code}{Fore.RESET} ] - {path}")
+            dir = dir.strip()
+            path = url + "/" + dir
+            r = requests.get(path)
+            if r.status_code == 200:
+                threading.Lock().acquire()
+                print(f"\t[ {Fore.LIGHTGREEN_EX}{r.status_code}{Fore.RESET} ] - {path}")
         except KeyboardInterrupt:
+            threading.Lock().acquire()
             print(f"\n\t{Fore.RED} Exited...{Fore.RESET}\n")
             exit()
         except:
             print(f"\n\t{Fore.RED}An error occured...{Fore.RESET}")    
     
+    # Starting the thread
+    def main(self, url):
+        try:
+            wordlist = open('wordlist.txt')
+            x = [threading.Thread(target=Dirbuster().dirb, args=(dir, url,)) for dir in wordlist.readlines()]
+            if threading.active_count() <= 50:
+                for thread in x:
+                        thread.start()
+
+                for thread in x:
+                    thread.join()
+
+        except KeyboardInterrupt:
+            threading.Lock().acquire()
+            print(f"\n\t{Fore.RED} Exited...{Fore.RESET}\n")
+            os.system('pause >nul')
+            exit()
+
+        except:
+            print(f"\n\t{Fore.RED}An error occured...{Fore.RESET}")
+
     # Getting the url from the user. Must include http.
     def get_url(self):
-        url = input(f"\t{Fore.CYAN}>> {Fore.RESET}")
+        self.url = input(f"\t{Fore.CYAN}>> {Fore.RESET}")
 
-        if "http" not in url:
+        if "http" not in self.url:
             print(f"\n\t{Fore.RED}Please enter a valid url. \n\t{Fore.LIGHTRED_EX}(e.g.) https://example.com\n")
             self.get_url()
-        
-        self.dirb(url)
+
+        self.main(self.url)
 
 # If name == main, run.
 if __name__ == "__main__":
