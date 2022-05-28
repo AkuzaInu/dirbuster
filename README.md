@@ -21,6 +21,8 @@ pip install -r requirements.txt
 python main.py
 ```
 
+After enter a url. The url must start with http
+
 ## Disclaimer
 THIS IS CREATED FOR EDUCATIONAL PURPOSES ONLY, USE THIS IN YOUR OWN ENVIRONMENT.
 
