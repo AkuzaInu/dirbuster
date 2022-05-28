@@ -5,7 +5,7 @@
 `v1.2.5`
 
 ## Description
-A python directory buster using `requests`
+A python multithreaded directory buster using `requests`
 
 ## Requirements
 1. python `3.9.10`
