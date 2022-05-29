@@ -2,7 +2,7 @@
 [![GitHub license](https://img.shields.io/badge/license-Unlicense-blue.svg)](https://raw.githubusercontent.com/AkuzaInu/dirbuster/main/LICENSE)
 
 # Python Dirbuster
-`v1.2.5`
+`v1.3.0`
 
 ## Description
 A python multithreaded directory buster using `requests`
@@ -22,8 +22,6 @@ python main.py
 ```
 
 After running this command, enter a url. 
-
-The url must start with *http* or *https*.
 
 ## Disclaimer
 THIS IS CREATED FOR EDUCATIONAL PURPOSES ONLY, USE THIS IN YOUR OWN ENVIRONMENT.
