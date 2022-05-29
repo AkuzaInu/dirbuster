@@ -16,7 +16,8 @@ import threading
 class Dirbuster:
     # Initializing
     def __init__(self):
-        self.url = ''
+        self.url = ""
+
 
     # Startup function, contains just plain text and a logo
     def startup(self):
@@ -39,28 +40,43 @@ class Dirbuster:
         logo()
         self.get_url()
 
+
+    # Printing function
+    def printer(self, text, color, indentoption, newlineoption):
+        threading.Lock().acquire()
+        indent = ""
+        newline = ""        
+        if indentoption == True:
+            indent = "\t"
+        if newlineoption == True:
+            newline = "\n"
+        self.totalprint = f"{newline}{indent}{color}{text}{Fore.RESET}"
+        print(self.totalprint)
+
+
     # The actual dirbuster using requests. if code is 200, print url path.
     def dirb(self, dir, url):
         try:
             dir = dir.strip()
-            path = url + "/" + dir
+            path = url + dir
             r = requests.get(path)
             if r.status_code == 200:
                 threading.Lock().acquire()
-                print(f"\t[ {Fore.LIGHTGREEN_EX}{r.status_code}{Fore.RESET} ] - {path}")
+                self.printer(f"[ {Fore.LIGHTGREEN_EX}{r.status_code}{Fore.RESET} ] - {path}", Fore.LIGHTWHITE_EX, True, False)
         except KeyboardInterrupt:
             threading.Lock().acquire()
-            print(f"\n\t{Fore.RED} Exited...{Fore.RESET}\n")
+            self.printer("Exited...", Fore.RED, True, True)
             exit()
         except:
-            print(f"\n\t{Fore.RED}An error occured...{Fore.RESET}")    
-    
+            self.printer("An error occured...", Fore.RED, True, True)
+
+ 
     # Starting the thread
     def main(self, url):
         try:
             wordlist = open('wordlist.txt')
             x = [threading.Thread(target=Dirbuster().dirb, args=(dir, url,)) for dir in wordlist.readlines()]
-            if threading.active_count() <= 50:
+            if threading.active_count() <= 15:
                 for thread in x:
                         thread.start()
 
@@ -69,22 +85,29 @@ class Dirbuster:
 
         except KeyboardInterrupt:
             threading.Lock().acquire()
-            print(f"\n\t{Fore.RED} Exited...{Fore.RESET}\n")
-            os.system('pause >nul')
+            self.printer("Exited...", Fore.RED, True, True)
             exit()
 
         except:
-            print(f"\n\t{Fore.RED}An error occured...{Fore.RESET}")
+            self.printer("An error occured...", Fore.RED, True, True)
+
 
     # Getting the url from the user. Must include http.
     def get_url(self):
-        self.url = input(f"\t{Fore.CYAN}>> {Fore.RESET}")
+        try:
+            self.url = input(f"\t{Fore.CYAN}>> {Fore.RESET}")
 
-        if "http" not in self.url:
-            print(f"\n\t{Fore.RED}Please enter a valid url. \n\t{Fore.LIGHTRED_EX}(e.g.) https://example.com\n")
-            self.get_url()
+            if not self.url.startswith("http"):
+                self.url = "https://" + self.url
+            if not self.url.endswith("/"):
+                self.url = self.url + "/"
 
-        self.main(self.url)
+            self.main(self.url)
+        
+        except KeyboardInterrupt:
+            threading.Lock().acquire()
+            self.printer("Exited...", Fore.RED, True, True)
+            exit()
 
 # If name == main, run.
 if __name__ == "__main__":
